@@ -27,6 +27,8 @@ public class BaseClass extends Application {
         FXMLLoader loader = new FXMLLoader(BaseClass.class.getResource("main/Main.fxml"));
         try {
             AnchorPane pane = loader.load();
+            MainController controller = new MainController();
+            controller.setStage(primaryStage);
             primaryStage.setTitle("Signature Verification System");
             primaryStage.setScene(new Scene(pane));
             primaryStage.initStyle(StageStyle.UNDECORATED);

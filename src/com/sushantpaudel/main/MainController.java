@@ -4,18 +4,19 @@ import com.sushantpaudel.utils.PreProcessing;
 import com.sushantpaudel.utils.StringClass;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.File;
+import javafx.stage.Stage;
 
 public class MainController {
+    private Stage primaryStage;
 
     //Main Variables
     public Label home;
     public Label train;
     public Label test;
-    public Label preprocessing;
+    public Label preProcessing;
     public Label aboutUs;
     public Label textHome;
     public Label exitLabel;
@@ -29,7 +30,7 @@ public class MainController {
     //Preprocessing variables
     public Button btnAddImage;
     public Button btnPreProcessing;
-    public Button btnPreprocessingAllData;
+    public Button btnPreProcessingAllData;
     public ImageView imageViewPreProcessing;
 
     public MainController() {
@@ -42,14 +43,19 @@ public class MainController {
         home.setOnMouseClicked(event -> dashboardClicked());
         train.setOnMouseClicked(event -> trainClicked());
         test.setOnMouseClicked(event -> testClicked());
-        preprocessing.setOnMouseClicked(event -> preprocessingClicked());
+        preProcessing.setOnMouseClicked(event -> preProcessingClicked());
         aboutUs.setOnMouseClicked(event -> aboutUsClicked());
+    }
+
+    public void setStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     private void clearAll() {
         home.setText(StringClass.home);
         train.setText(StringClass.train);
         test.setText(StringClass.test);
+        preProcessing.setText(StringClass.preProcessing);
         aboutUs.setText(StringClass.about_us);
         homeAnchorPane.setVisible(false);
         trainAnchorPane.setVisible(false);
@@ -79,14 +85,24 @@ public class MainController {
         test.setText(test.getText()+" >");
     }
 
-    private void preprocessingClicked() {
-        System.out.println("__________________ Preprocessing Clicked! __________________");
+    private void preProcessingClicked() {
+        System.out.println("__________________ Pre-processing Clicked! __________________");
         clearAll();
         preProcessingAnchorPane.setVisible(true);
-        preprocessing.setText(preprocessing.getText()+" >");
+        preProcessing.setText(preProcessing.getText() + " >");
         PreProcessing preProcessing = new PreProcessing();
+        preProcessing.setPrimaryStage(primaryStage);
         btnAddImage.setOnMouseClicked(event -> {
-
+            Image image = preProcessing.loadImageFromFileChooser();
+            imageViewPreProcessing.setImage(image);
+        });
+        btnPreProcessing.setOnMouseClicked(event -> {
+            preProcessing.setImage(imageViewPreProcessing.getImage());
+            preProcessing.convertToGrayScale();
+            preProcessing.noiseReduction();
+            preProcessing.backgroundElimination();
+            imageViewPreProcessing.setImage(preProcessing.getImage());
+            System.err.println("Finished!");
         });
     }
 
@@ -96,7 +112,4 @@ public class MainController {
         aboutUsAnchorPane.setVisible(true);
         aboutUs.setText(aboutUs.getText()+" >");
     }
-
-
-
 }
