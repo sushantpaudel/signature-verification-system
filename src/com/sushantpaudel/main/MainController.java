@@ -2,12 +2,16 @@ package com.sushantpaudel.main;
 
 import com.sushantpaudel.utils.PreProcessing;
 import com.sushantpaudel.utils.StringClass;
+import com.sushantpaudel.utils.ValuesClass;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class MainController {
     private Stage primaryStage;
@@ -106,9 +110,7 @@ public class MainController {
             imageViewPreProcessing.setImage(preProcessing.getImage());
             System.err.println("Finished!");
         });
-        btnPreProcessingAllData.setOnMouseClicked(event -> {
-            preProcessAllData();
-        });
+        btnPreProcessingAllData.setOnMouseClicked(event -> preProcessAllData());
     }
 
     private void aboutUsClicked() {
@@ -119,6 +121,41 @@ public class MainController {
     }
 
     private void preProcessAllData() {
+        traverseStorage(ValuesClass.PRE_PROCESS_DATA_DIRECTORY_PATH);
+    }
 
+    private void traverseStorage(String path) {
+        File mainFile = new File(path);
+        File[] list = mainFile.listFiles();
+        if (list != null) {
+            for (File f : list) {
+                if (f.isDirectory()) {
+                    traverseStorage(f.getPath());
+                } else {
+                    String parent = mainFile.getName();
+                    String fileName = f.getName();
+                    File parentSaveDirectory = new File(ValuesClass.SAVE_DATA_DIRECTORY_PATH + "/" + parent);
+                    if (!parentSaveDirectory.exists()) {
+                        boolean dirCreated = parentSaveDirectory.mkdir();
+                        if (!dirCreated) {
+                            System.err.println(parent + " directory is not created!");
+                            return;
+                        }
+                    }
+                    PreProcessing preProcessing = new PreProcessing();
+                    preProcessing.setImage(getImageFromFile(f));
+                    preProcessing.preProcessingAllPart();
+                    preProcessing.saveImageTo(parentSaveDirectory.getPath(), fileName, preProcessing.getImage());
+                }
+            }
+        }
+    }
+
+    private Image getImageFromFile(File file) {
+        try {
+            return new Image(file.toURI().toURL().toExternalForm());
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 }

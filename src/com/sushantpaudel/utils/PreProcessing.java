@@ -19,7 +19,7 @@ import static com.sushantpaudel.utils.ValuesClass.*;
 public class PreProcessing {
     private Stage primaryStage;
     private Image image;
-    private String filePath = "";
+    private String parentFilePath = "";
     private String imageName = "";
 
 
@@ -40,7 +40,7 @@ public class PreProcessing {
         fileChooser.getExtensionFilters().addAll(extFilterImage);
         //Show open file dialog
         File file = fileChooser.showOpenDialog(primaryStage);
-        filePath = file.getParentFile().getPath();
+        parentFilePath = file.getParentFile().getPath();
         imageName = file.getName();
         try {
             this.image = new Image(file.toURI().toURL().toExternalForm());
@@ -57,6 +57,13 @@ public class PreProcessing {
 
     public Image getImage() {
         return image;
+    }
+
+    public void preProcessingAllPart() {
+        convertToGrayScale();
+        noiseReduction();
+        backgroundElimination();
+        resizeImage();
     }
 
     //GRAY-SCALE CONVERSION - by taking average
@@ -155,7 +162,7 @@ public class PreProcessing {
     }
 
     public void saveImage() {
-        File newFile = new File(filePath + "/saved");
+        File newFile = new File(parentFilePath + "/saved");
         if (!newFile.exists()) {
             boolean dirCreated = newFile.mkdir();
             if (!dirCreated) {
@@ -166,8 +173,9 @@ public class PreProcessing {
     }
 
     //SAVING IMAGE TO the file
-    private void saveImageTo(String path, String fileName, Image image) {
-        File imageSaved = new File(path + "/" + fileName);
+    public void saveImageTo(String parent, String fileName, Image image) {
+        File imageSaved = new File(parent + "/" + fileName);
+        System.out.println(imageSaved.getPath() + " saved!");
         String format = "png";
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), format, imageSaved);
