@@ -68,21 +68,21 @@ public class MainController {
         System.out.println("__________________ Dashboard Clicked! __________________");
         clearAll();
         homeAnchorPane.setVisible(true);
-        home.setText(home.getText()+" >");
+        home.setText(home.getText() + " >");
     }
 
     private void trainClicked() {
         System.out.println("__________________ Train Clicked! __________________");
         clearAll();
         trainAnchorPane.setVisible(true);
-        train.setText(train.getText()+" >");
+        train.setText(train.getText() + " >");
     }
 
     private void testClicked() {
         System.out.println("__________________ Test Clicked! __________________");
         clearAll();
         testAnchorPane.setVisible(true);
-        test.setText(test.getText()+" >");
+        test.setText(test.getText() + " >");
     }
 
     private void preProcessingClicked() {
@@ -101,8 +101,13 @@ public class MainController {
             preProcessing.convertToGrayScale();
             preProcessing.noiseReduction();
             preProcessing.backgroundElimination();
+            preProcessing.resizeImage();
+            preProcessing.saveImage();
             imageViewPreProcessing.setImage(preProcessing.getImage());
             System.err.println("Finished!");
+        });
+        btnPreProcessingAllData.setOnMouseClicked(event -> {
+            preProcessAllData();
         });
     }
 
@@ -110,6 +115,10 @@ public class MainController {
         System.out.println("__________________ About Us Clicked! __________________");
         clearAll();
         aboutUsAnchorPane.setVisible(true);
-        aboutUs.setText(aboutUs.getText()+" >");
+        aboutUs.setText(aboutUs.getText() + " >");
+    }
+
+    private void preProcessAllData() {
+
     }
 }

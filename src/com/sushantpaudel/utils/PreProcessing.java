@@ -1,5 +1,6 @@
 package com.sushantpaudel.utils;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
@@ -8,15 +9,19 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import static com.sushantpaudel.utils.ValuesClass.*;
 
 public class PreProcessing {
     private Stage primaryStage;
-
     private Image image;
+    private String filePath = "";
+    private String imageName = "";
+
 
     public PreProcessing() {
 
@@ -30,11 +35,13 @@ public class PreProcessing {
         FileChooser fileChooser = new FileChooser();
         //Set extension filter
         fileChooser.setTitle("Open Image");
-        fileChooser.setInitialDirectory(new File(DEFAULT_DIRECTORY_PATH));
+        fileChooser.setInitialDirectory(new File(CHECK_DATA_DIRECTORY_PATH));
         FileChooser.ExtensionFilter extFilterImage = new FileChooser.ExtensionFilter("Image files (*.png,*.jpg)", "*.JPG", "*.PNG");
         fileChooser.getExtensionFilters().addAll(extFilterImage);
         //Show open file dialog
         File file = fileChooser.showOpenDialog(primaryStage);
+        filePath = file.getParentFile().getPath();
+        imageName = file.getName();
         try {
             this.image = new Image(file.toURI().toURL().toExternalForm());
             return image;
@@ -129,6 +136,46 @@ public class PreProcessing {
         image = setImage;
     }
 
+    //RESIZE IMAGE - resizing image to a standard size for FEATURE EXTRACTION
+    public void resizeImage() {
+        PixelReader reader = image.getPixelReader();
+        int totalWidth = (int) image.getWidth();
+        int totalHeight = (int) image.getHeight();
+        IMG_WIDTH = (int) (totalWidth * IMG_HEIGHT / (float) totalHeight);
+        WritableImage newImage = new WritableImage(IMG_WIDTH, IMG_HEIGHT);
+        PixelWriter writer = newImage.getPixelWriter();
+        for (int i = 0; i < totalWidth; i++) {
+            for (int j = 0; j < totalHeight; j++) {
+                float width = IMG_WIDTH * i / totalWidth;
+                float height = IMG_HEIGHT * j / totalHeight;
+                writer.setArgb((int) width, (int) height, reader.getArgb(i, j));
+            }
+        }
+        image = newImage;
+    }
+
+    public void saveImage() {
+        File newFile = new File(filePath + "/saved");
+        if (!newFile.exists()) {
+            boolean dirCreated = newFile.mkdir();
+            if (!dirCreated) {
+                return;
+            }
+            saveImageTo(newFile.getPath(), imageName, image);
+        }
+    }
+
+    //SAVING IMAGE TO the file
+    private void saveImageTo(String path, String fileName, Image image) {
+        File imageSaved = new File(path + "/" + fileName);
+        String format = "png";
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), format, imageSaved);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private int getMedian(int[] values) {
         for (int i = 0; i < values.length; i++) {
             for (int j = i; j < values.length; j++) {
@@ -141,4 +188,5 @@ public class PreProcessing {
         }
         return values[values.length / 2];
     }
+
 }
