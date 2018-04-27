@@ -50,9 +50,19 @@
       </Label>
    </VBox>
     <AnchorPane layoutX="220.0" prefHeight="492.0" prefWidth="511.0">
+        <AnchorPane fx:id="homeAnchorPane" prefHeight="492.0" prefWidth="531.0" visible="false">
+            <Label fx:id="textHome" alignment="CENTER" contentDisplay="TOP" prefHeight="480.0" prefWidth="520.0"
+                   text="Label" textAlignment="JUSTIFY" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <font>
+                    <Font name="Consolas" size="25.0"/>
+                </font>
+            </Label>
+        </AnchorPane>
       <AnchorPane fx:id="trainAnchorPane" prefHeight="492.0" prefWidth="531.0" visible="false" />
-      <AnchorPane fx:id="testAnchorPane" prefHeight="492.0" prefWidth="531.0" visible="false" />
-      <AnchorPane fx:id="aboutUsAnchorPane" layoutY="-2.0" prefHeight="492.0" prefWidth="531.0" visible="false" />
+        <AnchorPane fx:id="testAnchorPane" prefHeight="492.0" prefWidth="531.0"/>
       <AnchorPane fx:id="preProcessingAnchorPane" prefHeight="490.0" prefWidth="531.0">
           <ImageView fx:id="imageViewPreProcessing" fitHeight="430.0" fitWidth="504.0" layoutX="14.0" layoutY="14.0"
                      pickOnBounds="true" preserveRatio="true"/>
@@ -68,15 +78,6 @@
               </padding>
          </ButtonBar>
       </AnchorPane>
-      <AnchorPane fx:id="homeAnchorPane" prefHeight="492.0" prefWidth="531.0" visible="false">
-         <Label fx:id="textHome" alignment="CENTER" contentDisplay="TOP" prefHeight="480.0" prefWidth="520.0" text="Label" textAlignment="JUSTIFY" textOverrun="CENTER_ELLIPSIS" wrapText="true">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
-            <font>
-               <Font name="Consolas" size="25.0" />
-            </font>
-         </Label>
-      </AnchorPane>
+        <AnchorPane fx:id="aboutUsAnchorPane" layoutY="-2.0" prefHeight="492.0" prefWidth="531.0" visible="false"/>
    </AnchorPane>
 </AnchorPane>

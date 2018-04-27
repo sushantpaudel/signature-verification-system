@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sushantpaudel.test.TestController">
+    <ImageView fx:id="imageViewInput" fitHeight="225.0" fitWidth="285.0" layoutX="14.0" layoutY="14.0"
+               pickOnBounds="true" preserveRatio="true"/>
+    <ImageView fx:id="imageViewOutput" fitHeight="225.0" fitWidth="285.0" layoutX="307.0" layoutY="14.0"
+               pickOnBounds="true" preserveRatio="true"/>
+    <Button fx:id="addImage" layoutX="14.0" layoutY="251.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="105.0"
+            text="Add Image"/>
+    <Button fx:id="harrisAlgorithm" layoutX="133.0" layoutY="251.0" mnemonicParsing="false" prefHeight="28.0"
+            prefWidth="134.0" text="Harris Algorithm"/>
+    <Button fx:id="btnGrayScaleConversion" layoutX="15.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="37.0" text="G"/>
+    <Button fx:id="btnNoiseReduction" layoutX="64.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="37.0" text="N"/>
+    <Button fx:id="btnBackgroundElimination" layoutX="115.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="37.0" text="B"/>
+    <Button fx:id="btnResizeImage" layoutX="163.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="37.0" text="R"/>
+    <Button fx:id="btnPreProcessAllData" layoutX="212.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="37.0" text="All"/>
+    <Label layoutX="258.0" layoutY="291.0" text="&lt;&lt; Pre-processing"/>
+</AnchorPane>

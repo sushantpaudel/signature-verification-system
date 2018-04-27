@@ -1,16 +1,22 @@
 package com.sushantpaudel.main;
 
+import com.sushantpaudel.test.TestController;
 import com.sushantpaudel.utils.PreProcessing;
 import com.sushantpaudel.utils.StringClass;
 import com.sushantpaudel.utils.ValuesClass;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class MainController {
@@ -87,6 +93,19 @@ public class MainController {
         clearAll();
         testAnchorPane.setVisible(true);
         test.setText(test.getText() + " >");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../test/Test.fxml"));
+        try {
+            Parent nextWindow = fxmlLoader.load();
+            Stage stage = new Stage();
+            TestController controller = new TestController();
+            controller.setStage(stage);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setScene(new Scene(nextWindow));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void preProcessingClicked() {
@@ -106,7 +125,6 @@ public class MainController {
             preProcessing.noiseReduction();
             preProcessing.backgroundElimination();
             preProcessing.resizeImage();
-            preProcessing.saveImage();
             imageViewPreProcessing.setImage(preProcessing.getImage());
             System.err.println("Finished!");
         });
