@@ -139,7 +139,7 @@ public class MainController {
     }
 
     private void preProcessAllData() {
-        traverseStorage(ValuesClass.PRE_PROCESS_DATA_DIRECTORY_PATH);
+        traverseStorage(ValuesClass.RAW_DATA_DIRECTORY_PATH);
     }
 
     private void traverseStorage(String path) {
@@ -152,7 +152,7 @@ public class MainController {
                 } else {
                     String parent = mainFile.getName();
                     String fileName = f.getName();
-                    File parentSaveDirectory = new File(ValuesClass.SAVE_DATA_DIRECTORY_PATH + "/" + parent);
+                    File parentSaveDirectory = new File(ValuesClass.PRE_PROCESSED_DATA_DIRECTORY_PATH + "/" + parent);
                     if (!parentSaveDirectory.exists()) {
                         boolean dirCreated = parentSaveDirectory.mkdir();
                         if (!dirCreated) {
