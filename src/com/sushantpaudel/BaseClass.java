@@ -7,11 +7,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.opencv.core.Core;
 
 import java.io.IOException;
 
 public class BaseClass extends Application {
     private Stage primaryStage;
+
+    static {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
 
     public static void main(String[] args) {
         launch(args);

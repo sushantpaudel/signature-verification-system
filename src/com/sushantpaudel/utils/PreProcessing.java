@@ -21,10 +21,15 @@ public class PreProcessing {
     private Image image;
     private String parentFilePath = "";
     private String imageName = "";
+    private String wholePath = "";
 
 
     public PreProcessing() {
 
+    }
+
+    public String getImagePath() {
+        return wholePath;
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -40,6 +45,7 @@ public class PreProcessing {
         fileChooser.getExtensionFilters().addAll(extFilterImage);
         //Show open file dialog
         File file = fileChooser.showOpenDialog(primaryStage);
+        wholePath = file.getPath();
         parentFilePath = file.getParentFile().getPath();
         imageName = file.getName();
         try {

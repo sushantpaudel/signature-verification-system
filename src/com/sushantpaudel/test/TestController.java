@@ -2,11 +2,10 @@ package com.sushantpaudel.test;
 
 import com.sushantpaudel.utils.HarrisAlgorithm;
 import com.sushantpaudel.utils.PreProcessing;
-import com.sushantpaudel.utils.ValuesClass;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.stage.Stage;
+import org.opencv.core.Mat;
 
 public class TestController {
     private Stage primaryStage;
@@ -14,6 +13,12 @@ public class TestController {
     public ImageView imageViewInput;
     public ImageView imageViewOutput;
     public Button btnAddImage;
+
+    //Extra Buttons
+    public Button btnTest;
+    public Button btnCopy;
+    public Button btnReset;
+    public Button btnSaveImage;
 
     //FEATURE EXTRACTION BUTTONS
     public Button btnHarrisAlgorithm;
@@ -25,8 +30,6 @@ public class TestController {
     public Button btnBackgroundElimination;
     public Button btnResizeImage;
     public Button btnPreProcessAllData;
-    public Button btnReset;
-    public Button btnSaveImage;
 
 
     public TestController() {
@@ -36,6 +39,8 @@ public class TestController {
         btnAddImage.setOnMouseClicked(event -> addImageToView());
         btnReset.setOnMouseClicked(event -> preProcessing.setImage(imageViewInput.getImage()));
         btnSaveImage.setOnMouseClicked(event -> preProcessing.saveImage());
+        btnTest.setOnMouseClicked(event -> testImage());
+        btnCopy.setOnMouseClicked(event -> imageViewOutput.setImage(preProcessing.getImage()));
     }
 
     public void setStage(Stage primaryStage) {
@@ -75,18 +80,28 @@ public class TestController {
 
 
     //Implementation of Harris Algorithm
+
     private void harrisAlgorithm() {
-        PreProcessing harrisPreProcessing = new PreProcessing();
-        harrisPreProcessing.setImage(imageViewInput.getImage());
-        harrisPreProcessing.preProcessingAllPart();
-        Image image = preProcessing.getImage();
         HarrisAlgorithm algorithm = new HarrisAlgorithm();
+        algorithm.setImagePath(preProcessing.getImagePath());
         btnHarrisAlgorithm.setOnMouseClicked(event -> {
-            traverseStorageHarrisAlgorithm(ValuesClass.PRE_PROCESSED_DATA_DIRECTORY_PATH);
+            Mat mat = algorithm.Harris(algorithm.convertImageToMat());
+            algorithm.convertMatToImage(mat);
+            imageViewOutput.setImage(algorithm.getImage());
         });
     }
 
     private void traverseStorageHarrisAlgorithm(String path) {
+
+    }
+
+    private void testImage() {
+        Image testImage = imageViewOutput.getImage();
+        int WIDTH = (int) testImage.getWidth();
+        int HEIGHT = (int) testImage.getHeight();
+        WritableImage writableImage = new WritableImage(WIDTH, HEIGHT);
+        PixelReader reader = testImage.getPixelReader();
+        PixelWriter writer = writableImage.getPixelWriter();
 
     }
 

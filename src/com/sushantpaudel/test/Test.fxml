@@ -25,5 +25,7 @@
             prefWidth="37.0" text="All"/>
     <Button fx:id="btnReset" layoutX="15.0" layoutY="361.0" mnemonicParsing="false" text="Reset"/>
     <Button fx:id="btnSaveImage" layoutX="75.0" layoutY="361.0" mnemonicParsing="false" text="Save"/>
+    <Button fx:id="btnTest" layoutX="133.0" layoutY="361.0" mnemonicParsing="false" text="Test"/>
+    <Button fx:id="btnCopy" layoutX="186.0" layoutY="361.0" mnemonicParsing="false" text="Copy"/>
     <Label layoutX="258.0" layoutY="291.0" text="&lt;&lt; Pre-processing"/>
 </AnchorPane>
