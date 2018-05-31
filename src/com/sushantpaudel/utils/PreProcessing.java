@@ -69,6 +69,7 @@ public class PreProcessing {
         convertToGrayScale();
         noiseReduction();
         backgroundElimination();
+        cropImage();
         resizeImage();
     }
 
@@ -144,6 +145,79 @@ public class PreProcessing {
                     pixel = Color.BLACK;
                 }
                 writer.setColor(i, j, pixel);
+            }
+        }
+        image = setImage;
+    }
+
+    //CROPPING IMAGE
+    public void cropImage() {
+        Image processImage = image;
+        int width = (int) processImage.getWidth();
+        int height = (int) processImage.getHeight();
+        PixelReader reader = processImage.getPixelReader();
+        int box = BOX_MEDIAN_FILTER;
+        int leftLimit = 0;
+        int rightLimit = 0;
+        int topLimit = 0;
+        int bottomLimit = 0;
+        int totalLimit = 255 * 6;
+        //Checking Left Limit
+        outer:
+        for (int i = box; i < width - box; i += box + box) {
+            for (int j = box; j < height - box; j += box + box) {
+                int pixel = reader.getArgb(i, j);
+                int red = ((pixel >> 16) & 0xff);
+                if (red < INTENSITY) {
+                    leftLimit = i;
+                    break outer;
+                }
+            }
+        }
+        //Checking Right Limit
+        outer:
+        for (int i = width - 1; i >= 0; i--) {
+            for (int j = 0; j < height; j++) {
+                int pixel = reader.getArgb(i, j);
+                int red = ((pixel >> 16) & 0xff);
+                if (red < INTENSITY) {
+                    rightLimit = i;
+                    break outer;
+                }
+            }
+        }
+        //Checking Top Limit
+        outer:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int pixel = reader.getArgb(j, i);
+                int red = ((pixel >> 16) & 0xff);
+                if (red < INTENSITY) {
+                    topLimit = i;
+                    break outer;
+                }
+            }
+        }
+        //Checking Bottom Limit
+        outer:
+        for (int i = height - 1; i >= 0; i--) {
+            for (int j = 0; j < width; j++) {
+                int pixel = reader.getArgb(j, i);
+                int red = ((pixel >> 16) & 0xff);
+                if (red < INTENSITY) {
+                    bottomLimit = i;
+                    break outer;
+                }
+            }
+        }
+        int newWidth = rightLimit - leftLimit;
+        int newHeight = bottomLimit - topLimit;
+        WritableImage setImage = new WritableImage(newWidth, newHeight);
+        PixelWriter writer = setImage.getPixelWriter();
+        for (int i = 0; i < newWidth; i++) {
+            for (int j = 0; j < newHeight; j++) {
+                int argb = reader.getArgb(i + leftLimit, j + topLimit);
+                writer.setArgb(i, j, argb);
             }
         }
         image = setImage;

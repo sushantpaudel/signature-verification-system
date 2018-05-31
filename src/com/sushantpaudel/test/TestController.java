@@ -28,6 +28,7 @@ public class TestController {
     public Button btnGrayScaleConversion;
     public Button btnNoiseReduction;
     public Button btnBackgroundElimination;
+    public Button btnCrop;
     public Button btnResizeImage;
     public Button btnPreProcessAllData;
 
@@ -65,6 +66,10 @@ public class TestController {
         });
         btnBackgroundElimination.setOnMouseClicked(event -> {
             preProcessing.backgroundElimination();
+            imageViewOutput.setImage(preProcessing.getImage());
+        });
+        btnCrop.setOnMouseClicked(event -> {
+            preProcessing.cropImage();
             imageViewOutput.setImage(preProcessing.getImage());
         });
         btnResizeImage.setOnMouseClicked(event -> {

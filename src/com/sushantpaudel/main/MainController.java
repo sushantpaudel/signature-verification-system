@@ -140,6 +140,7 @@ public class MainController {
 
     private void preProcessAllData() {
         traverseStorage(ValuesClass.RAW_DATA_DIRECTORY_PATH);
+        System.out.println("Finished!!!");
     }
 
     private void traverseStorage(String path) {
