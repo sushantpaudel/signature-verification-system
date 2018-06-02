@@ -7,8 +7,8 @@ public class ValuesClass {
     public static final String TEST_DATA_DIRECTORY_PATH = "";
     //PRE-PROCESSING ENTRIES
     static final int BOX_MEDIAN_FILTER = 1;
-    static final int INTENSITY = 130;
-    static final int IMG_HEIGHT = 300;
+    static int INTENSITY = 130;
+    static final int IMG_HEIGHT = 100;
     static int IMG_WIDTH = 0;
 
 }

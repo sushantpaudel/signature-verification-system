@@ -67,8 +67,8 @@ public class PreProcessing {
 
     public void preProcessingAllPart() {
         convertToGrayScale();
-        noiseReduction();
         backgroundElimination();
+        noiseReduction();
         cropImage();
         resizeImage();
     }
@@ -78,6 +78,8 @@ public class PreProcessing {
         Image processImage = image;
         int width = (int) processImage.getWidth();
         int height = (int) processImage.getHeight();
+        int totalPixel = width * height;
+        int sumOfValues = 0;
         WritableImage setImage = new WritableImage(width, height);
         PixelReader reader = processImage.getPixelReader();
         PixelWriter writer = setImage.getPixelWriter();
@@ -89,10 +91,12 @@ public class PreProcessing {
                 int green = ((pixel >> 8) & 0xff);
                 int blue = (pixel & 0xff);
                 int grayLevel = (red + green + blue) / 3;
+                sumOfValues += grayLevel;
                 int gray = (alpha << 24) | (grayLevel << 16) | (grayLevel << 8) | grayLevel;
                 writer.setArgb(i, j, gray);
             }
         }
+        INTENSITY = sumOfValues / totalPixel;
         image = setImage;
     }
 
@@ -168,7 +172,7 @@ public class PreProcessing {
             for (int j = box; j < height - box; j += box + box) {
                 int pixel = reader.getArgb(i, j);
                 int red = ((pixel >> 16) & 0xff);
-                if (red < INTENSITY) {
+                if (red == 0) {
                     leftLimit = i;
                     break outer;
                 }
@@ -180,7 +184,7 @@ public class PreProcessing {
             for (int j = 0; j < height; j++) {
                 int pixel = reader.getArgb(i, j);
                 int red = ((pixel >> 16) & 0xff);
-                if (red < INTENSITY) {
+                if (red == 0) {
                     rightLimit = i;
                     break outer;
                 }
@@ -192,7 +196,7 @@ public class PreProcessing {
             for (int j = 0; j < width; j++) {
                 int pixel = reader.getArgb(j, i);
                 int red = ((pixel >> 16) & 0xff);
-                if (red < INTENSITY) {
+                if (red == 0) {
                     topLimit = i;
                     break outer;
                 }
@@ -204,14 +208,14 @@ public class PreProcessing {
             for (int j = 0; j < width; j++) {
                 int pixel = reader.getArgb(j, i);
                 int red = ((pixel >> 16) & 0xff);
-                if (red < INTENSITY) {
+                if (red == 0) {
                     bottomLimit = i;
                     break outer;
                 }
             }
         }
-        int newWidth = rightLimit - leftLimit;
-        int newHeight = bottomLimit - topLimit;
+        int newWidth = rightLimit - leftLimit + 1;
+        int newHeight = bottomLimit - topLimit + 1;
         WritableImage setImage = new WritableImage(newWidth, newHeight);
         PixelWriter writer = setImage.getPixelWriter();
         for (int i = 0; i < newWidth; i++) {
