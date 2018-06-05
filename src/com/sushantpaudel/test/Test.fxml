@@ -31,6 +31,5 @@
     <Label layoutX="14.0" layoutY="329.0" text="Feature Extraction &gt;&gt;"/>
     <Button fx:id="btnHarrisAlgorithm" layoutX="140.0" layoutY="324.0" mnemonicParsing="false" prefHeight="28.0"
             prefWidth="52.0" text="Harris"/>
-    <Button fx:id="btnFeatureDistance" layoutX="199.0" layoutY="326.0" mnemonicParsing="false" text="Distance"/>
-    <Button fx:id="btnFeatureCentreOfMass" layoutX="266.0" layoutY="326.0" mnemonicParsing="false" text="CentreOfMass"/>
+    <Button fx:id="btnFeatureList" layoutX="204.0" layoutY="326.0" mnemonicParsing="false" text="FeatureList"/>
 </AnchorPane>

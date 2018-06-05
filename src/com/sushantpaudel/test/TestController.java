@@ -11,6 +11,7 @@ import org.opencv.core.Mat;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TestController {
     private Stage primaryStage;
@@ -27,8 +28,7 @@ public class TestController {
 
     //FEATURE EXTRACTION BUTTONS
     public Button btnHarrisAlgorithm;
-    public Button btnFeatureDistance;
-    public Button btnFeatureCentreOfMass;
+    public Button btnFeatureList;
 
     //PRE-PROCESSING BUTTONS
     private PreProcessing preProcessing;
@@ -101,11 +101,15 @@ public class TestController {
      *
      */
 
+
+    //List of Features
+    private HashMap<String, ArrayList<ArrayList<Float>>> listOfFeaturesOfAllImage = new HashMap<>();
+
     private void featureExtraction() {
         harrisAlgorithm();
-        eucledianDistance();
-        centreOfMass();
+        listOfFeatures();
     }
+
 
     //HARRIS ALGORITHM
     private void harrisAlgorithm() {
@@ -118,66 +122,43 @@ public class TestController {
         });
     }
 
-    //CALCULATION OF EUCLEDIAN DISTANCE to the pixel with black value FROM THE CENTRE OF THE IMAGE
-    private void eucledianDistance() {
-        btnFeatureDistance.setOnMouseClicked(event -> {
-            System.out.println("Button Clicked");
-            FeatureExtraction featureExtraction = new FeatureExtraction();
-            featureExtraction.setImage(preProcessing.getImage());
-            ArrayList<Integer> list = featureExtraction.extractEucledianFeature();
-            System.out.println(list.size());
-            for (Integer i : list) {
-                System.out.print(i + " , ");
-            }
-//            traverseStorageEucledianDistance(ValuesClass.PRE_PROCESSED_DATA_DIRECTORY_PATH);
-        });
-    }
-
-    private ArrayList<ArrayList<Integer>> featureListEucledian = new ArrayList<>();
-
-    private void traverseStorageEucledianDistance(String path) {
-        File mainFile = new File(path);
-        File[] list = mainFile.listFiles();
-        if (list != null) {
-            for (File f : list) {
-                if (f.isDirectory()) {
-                    traverseStorageEucledianDistance(f.getPath());
-                } else {
-                    Image image = getImageFromFile(f);
-                    FeatureExtraction featureExtraction = new FeatureExtraction();
-                    featureExtraction.setImage(image);
-                    featureListEucledian.add(featureExtraction.extractEucledianFeature());
-                }
-            }
-        }
-    }
-
     //Calculation of the centre of mass of the signature by looking for the black pixel
-    private ArrayList<int[]> featureListCentreOfMass = new ArrayList<>();
-
-    private void centreOfMass() {
-        btnFeatureCentreOfMass.setOnMouseClicked(event -> {
+    private void listOfFeatures() {
+        btnFeatureList.setOnMouseClicked(event -> {
             System.out.println("Button Clicked");
             FeatureExtraction featureExtraction = new FeatureExtraction();
             featureExtraction.setImage(preProcessing.getImage());
-            int[] XY = featureExtraction.centreOfMass();
-            System.out.println("(x,y) -> (" + XY[0] + "," + XY[1] + ")");
-//            traverseStorageCentreOfMass(ValuesClass.PRE_PROCESSED_DATA_DIRECTORY_PATH);
+            ArrayList<Float> arrayList = featureExtraction.getListOfFeatures();
+            System.out.println("---------------------");
+            System.out.println("List of features: " + "(Count : " + arrayList.size() + ")");
+            int count = 1;
+            for (Float i : arrayList) {
+                System.out.println("F" + count + " -> " + i);
+                count++;
+            }
+            System.out.println("---------------------");
         });
     }
 
-    private void traverseStorageCentreOfMass(String path) {
+    private void traverseStorageFeature(String path) {
         File mainFile = new File(path);
-        File[] list = mainFile.listFiles();
-        if (list != null) {
-            for (File f : list) {
+        File[] listOfFiles = mainFile.listFiles();
+        String directoryName = mainFile.getName();
+        if (listOfFiles != null) {
+            for (File f : listOfFiles) {
                 if (f.isDirectory()) {
-                    traverseStorageEucledianDistance(f.getPath());
+                    traverseStorageFeature(f.getPath());
                 } else {
                     Image image = getImageFromFile(f);
                     FeatureExtraction featureExtraction = new FeatureExtraction();
                     featureExtraction.setImage(image);
-                    featureListCentreOfMass.add(featureExtraction.centreOfMass());
+                    if (listOfFeaturesOfAllImage.containsKey(directoryName)) {
+                        ArrayList<ArrayList<Float>> listOfFeatures = listOfFeaturesOfAllImage.get(directoryName);
+                        listOfFeatures.add(featureExtraction.getListOfFeatures());
+                    } else {
+                        ArrayList<ArrayList<Float>> listOfFeatures = new ArrayList<>();
+                        listOfFeaturesOfAllImage.put(directoryName, listOfFeatures);
+                    }
                 }
             }
         }
