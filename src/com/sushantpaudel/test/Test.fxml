@@ -32,4 +32,5 @@
     <Button fx:id="btnHarrisAlgorithm" layoutX="140.0" layoutY="324.0" mnemonicParsing="false" prefHeight="28.0"
             prefWidth="52.0" text="Harris"/>
     <Button fx:id="btnFeatureList" layoutX="204.0" layoutY="326.0" mnemonicParsing="false" text="FeatureList"/>
+    <Button fx:id="btnTensorFlow" layoutX="285.0" layoutY="325.0" mnemonicParsing="false" text="Tensorflow"/>
 </AnchorPane>

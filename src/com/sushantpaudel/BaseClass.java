@@ -1,6 +1,7 @@
 package com.sushantpaudel;
 
 import com.sushantpaudel.main.MainController;
+import com.sushantpaudel.train.TrainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,6 +38,21 @@ public class BaseClass extends Application {
             primaryStage.setTitle("Signature Verification System");
             primaryStage.setScene(new Scene(pane));
             primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.setResizable(false);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startTrain() {
+        FXMLLoader loader = new FXMLLoader(BaseClass.class.getResource("train/Train.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            TrainController controller = new TrainController();
+            controller.setStage(primaryStage);
+            primaryStage.initStyle(StageStyle.DECORATED);
+            primaryStage.setScene(new Scene(pane));
             primaryStage.setResizable(false);
             primaryStage.show();
         } catch (IOException e) {

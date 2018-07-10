@@ -232,7 +232,7 @@ public class PreProcessing {
         PixelReader reader = image.getPixelReader();
         int totalWidth = (int) image.getWidth();
         int totalHeight = (int) image.getHeight();
-        IMG_WIDTH = (int) (totalWidth * IMG_HEIGHT / (float) totalHeight);
+//        IMG_WIDTH = (int) (totalWidth * IMG_HEIGHT / (float) totalHeight);
         WritableImage newImage = new WritableImage(IMG_WIDTH, IMG_HEIGHT);
         PixelWriter writer = newImage.getPixelWriter();
         for (int i = 0; i < totalWidth; i++) {

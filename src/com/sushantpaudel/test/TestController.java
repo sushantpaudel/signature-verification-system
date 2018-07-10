@@ -1,5 +1,6 @@
 package com.sushantpaudel.test;
 
+import com.sushantpaudel.tensor_flow.TensorFlowTest;
 import com.sushantpaudel.utils.FeatureExtraction;
 import com.sushantpaudel.utils.HarrisAlgorithm;
 import com.sushantpaudel.utils.PreProcessing;
@@ -29,6 +30,7 @@ public class TestController {
     //FEATURE EXTRACTION BUTTONS
     public Button btnHarrisAlgorithm;
     public Button btnFeatureList;
+    public Button btnTensorFlow;
 
     //PRE-PROCESSING BUTTONS
     private PreProcessing preProcessing;
@@ -49,6 +51,7 @@ public class TestController {
         btnSaveImage.setOnMouseClicked(event -> preProcessing.saveImage());
         btnTest.setOnMouseClicked(event -> testImage());
         btnCopy.setOnMouseClicked(event -> imageViewOutput.setImage(preProcessing.getImage()));
+        btnTensorFlow.setOnMouseClicked(event -> tensorFlowTest());
     }
 
     public void setStage(Stage primaryStage) {
@@ -179,6 +182,13 @@ public class TestController {
         WritableImage writableImage = new WritableImage(WIDTH, HEIGHT);
         PixelReader reader = testImage.getPixelReader();
         PixelWriter writer = writableImage.getPixelWriter();
+
+    }
+
+
+    private void tensorFlowTest() {
+        TensorFlowTest tensorFlowTest = new TensorFlowTest();
+        tensorFlowTest.setImage(preProcessing.getImage());
 
     }
 

@@ -1,6 +1,7 @@
 package com.sushantpaudel.main;
 
 import com.sushantpaudel.test.TestController;
+import com.sushantpaudel.train.TrainController;
 import com.sushantpaudel.utils.PreProcessing;
 import com.sushantpaudel.utils.StringClass;
 import com.sushantpaudel.utils.ValuesClass;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -86,6 +88,19 @@ public class MainController {
         clearAll();
         trainAnchorPane.setVisible(true);
         train.setText(train.getText() + " >");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../train/Train.fxml"));
+        try {
+            Parent nextWindow = fxmlLoader.load();
+            Stage stage = new Stage();
+            TrainController controller = new TrainController();
+            controller.setStage(stage);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setScene(new Scene(nextWindow));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void testClicked() {
@@ -149,8 +164,17 @@ public class MainController {
      */
 
     private void preProcessAllData() {
-        traverseStorage(ValuesClass.RAW_DATA_DIRECTORY_PATH);
+//        traverseStorage(ValuesClass.RAW_DATA_DIRECTORY_PATH);
+        traverseStorage(rawDataPath());
         System.out.println("Finished!!!");
+    }
+
+    private String rawDataPath() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File(ValuesClass.RAW_DATA_DIRECTORY_PATH));
+        directoryChooser.setTitle("Raw data directory path");
+        File file = directoryChooser.showDialog(primaryStage);
+        return file.getAbsolutePath();
     }
 
     private void traverseStorage(String path) {

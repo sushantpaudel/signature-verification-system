@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.sushantpaudel.train.TrainController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sushantpaudel.train.TrainController">
+    <Button fx:id="btnCreateNeuralNetwork" layoutX="96.0" layoutY="82.0" mnemonicParsing="false"
+            text="Create Neural Network"/>
+    <Button fx:id="btnTrain" layoutX="171.0" layoutY="188.0" mnemonicParsing="false" text="Train"/>
+    <Button fx:id="btnMakeConnections" layoutX="261.0" layoutY="82.0" mnemonicParsing="false" text="Make Connections"/>
 </AnchorPane>
