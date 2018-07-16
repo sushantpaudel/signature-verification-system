@@ -1,6 +1,7 @@
 package com.sushantpaudel;
 
 import com.sushantpaudel.main.MainController;
+import com.sushantpaudel.test.TestController;
 import com.sushantpaudel.train.TrainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +51,21 @@ public class BaseClass extends Application {
         try {
             AnchorPane pane = loader.load();
             TrainController controller = new TrainController();
+            controller.setStage(primaryStage);
+            primaryStage.initStyle(StageStyle.DECORATED);
+            primaryStage.setScene(new Scene(pane));
+            primaryStage.setResizable(false);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startTest() {
+        FXMLLoader loader = new FXMLLoader(BaseClass.class.getResource("test/Test.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            TestController controller = new TestController();
             controller.setStage(primaryStage);
             primaryStage.initStyle(StageStyle.DECORATED);
             primaryStage.setScene(new Scene(pane));

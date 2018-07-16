@@ -1,10 +1,11 @@
 package com.sushantpaudel.test;
 
-import com.sushantpaudel.tensor_flow.TensorFlowTest;
 import com.sushantpaudel.utils.FeatureExtraction;
 import com.sushantpaudel.utils.HarrisAlgorithm;
 import com.sushantpaudel.utils.PreProcessing;
+import com.sushantpaudel.utils.PredictClass;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
@@ -30,7 +31,10 @@ public class TestController {
     //FEATURE EXTRACTION BUTTONS
     public Button btnHarrisAlgorithm;
     public Button btnFeatureList;
-    public Button btnTensorFlow;
+
+    //Prediction
+    public Button btnPredict;
+    public Label labelPredictionOutput;
 
     //PRE-PROCESSING BUTTONS
     private PreProcessing preProcessing;
@@ -51,7 +55,7 @@ public class TestController {
         btnSaveImage.setOnMouseClicked(event -> preProcessing.saveImage());
         btnTest.setOnMouseClicked(event -> testImage());
         btnCopy.setOnMouseClicked(event -> imageViewOutput.setImage(preProcessing.getImage()));
-        btnTensorFlow.setOnMouseClicked(event -> tensorFlowTest());
+        btnPredict.setOnMouseClicked(event -> predictSign());
     }
 
     public void setStage(Stage primaryStage) {
@@ -112,7 +116,6 @@ public class TestController {
         harrisAlgorithm();
         listOfFeatures();
     }
-
 
     //HARRIS ALGORITHM
     private void harrisAlgorithm() {
@@ -185,11 +188,15 @@ public class TestController {
 
     }
 
-
-    private void tensorFlowTest() {
-        TensorFlowTest tensorFlowTest = new TensorFlowTest();
-        tensorFlowTest.setImage(preProcessing.getImage());
-
+    private void predictSign() {
+        PredictClass predict = new PredictClass();
+        preProcessing.preProcessingAllPart();
+        imageViewOutput.setImage(preProcessing.getImage());
+        preProcessing.saveImage();
+        predict.setName(preProcessing.getImageName());
+        predict.setPath(preProcessing.getSavedImagePath());
+        String prediction = predict.startPrediction();
+        labelPredictionOutput.setText(prediction);
     }
 
 }

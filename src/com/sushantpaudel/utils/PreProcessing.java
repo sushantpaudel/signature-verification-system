@@ -28,6 +28,10 @@ public class PreProcessing {
 
     }
 
+    public String getImageName() {
+        return imageName;
+    }
+
     public String getImagePath() {
         return wholePath;
     }
@@ -246,14 +250,20 @@ public class PreProcessing {
     }
 
     public void saveImage() {
-        File newFile = new File(parentFilePath + "/saved");
+        File newFile = new File(parentFilePath + "\\saved");
         if (!newFile.exists()) {
             boolean dirCreated = newFile.mkdir();
             if (!dirCreated) {
                 return;
             }
             saveImageTo(newFile.getPath(), imageName, image);
+        } else {
+            saveImageTo(newFile.getPath(), imageName, image);
         }
+    }
+
+    public String getSavedImagePath() {
+        return parentFilePath + "\\saved\\" + imageName;
     }
 
     //SAVING IMAGE TO the file
